@@ -136,6 +136,13 @@
 
   try {
     if (!firebase.apps.length) firebase.initializeApp(config);
+    if (firebase.analytics && typeof firebase.analytics.isSupported === "function") {
+      firebase.analytics.isSupported().then((isSupported) => {
+        if (isSupported) firebase.analytics();
+      }).catch((error) => {
+        console.error("Firebase Analytics initialization failed.", error);
+      });
+    }
     auth = firebase.auth();
     database = firebase.database();
     auth.onAuthStateChanged((user) => {

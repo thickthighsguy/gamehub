@@ -29,7 +29,7 @@ The current shared four-digit passphrase is a temporary prototype gate, not stro
 
 1. In Firebase Console, add a Web app to project `games-c72c0` and enable **Authentication > Sign-in method > Email/Password**.
 2. Add `localhost` under **Authentication > Settings > Authorized domains** for local testing.
-3. Copy the Web app config values into `App/games/firebase-config.js`. Keep the provided `databaseURL` and replace the API key, auth domain, and app ID placeholders with the values from the Console.
+3. The Web app config for project `games-c72c0` is already set in `App/games/firebase-config.js`. If you use another Firebase project, replace those values with its Web app config and keep `databaseURL` set to that project's Realtime Database URL. Analytics initializes when supported by the browser.
 4. Paste `App/games/database.rules.json` into **Realtime Database > Rules** and publish the rules.
 
 The form accepts only a username and password. Firebase Email/Password Auth requires an email-shaped identifier, so the client maps each lowercase username to a reserved alias ending in `@users.gamehub.invalid`; it does not collect or store a user's email. This prevents a public username lookup table, but email verification and password-reset emails are unavailable. Realtime Database stores only `users/{uid}/username` and `createdAt`; users can read their own profile, and writes to other paths (including subscription status) are denied by default.
