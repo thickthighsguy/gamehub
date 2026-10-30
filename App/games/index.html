@@ -24,16 +24,12 @@
         <p class="form-caption" id="formCaption">Sign in to pick up where you left off.</p>
         <form id="authForm">
           <div class="field">
-            <label for="identity">Username or email</label>
-            <input id="identity" name="identity" type="text" autocomplete="username" placeholder="you@example.com" required>
+            <label for="identity">Username</label>
+            <input id="identity" name="username" type="text" autocomplete="username" minlength="3" maxlength="24" pattern="[A-Za-z0-9._-]{3,24}" placeholder="3-24 characters" required>
           </div>
           <div class="field">
             <label for="password">Password</label>
             <input id="password" name="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" minlength="6" required>
-          </div>
-          <div class="field" id="additionalField" hidden>
-            <label for="additionalInfo">Additional information</label>
-            <textarea id="additionalInfo" name="additionalInfo" placeholder="A name, a short bio, or anything else"></textarea>
           </div>
           <button class="primary-button" id="submitButton" type="submit">Log in</button>
           <p class="form-error" id="formError" role="status" aria-live="polite"></p>
@@ -99,9 +95,9 @@
         <section class="view" id="view-account" aria-labelledby="accountTitle" hidden>
           <div class="page-heading"><div><p class="eyebrow">Your space</p><h1 id="accountTitle">Account Info</h1><p>Your account details at a glance.</p></div></div>
           <div class="account-panel">
-            <div class="account-row"><span>Username or email</span><span id="accountIdentity">-</span></div>
-            <div class="account-row"><span>Additional information</span><span id="accountAdditional">Not provided</span></div>
+            <div class="account-row"><span>Username</span><span id="accountIdentity">-</span></div>
             <div class="account-row"><span>Status</span><span>Signed in</span></div>
+            <div class="account-row"><span>Session</span><button class="text-button" id="signOutButton" type="button">Sign out</button></div>
           </div>
         </section>
 
@@ -132,8 +128,13 @@
     </div>
   </dialog>
 
+  <script src="https://www.gstatic.com/firebasejs/13.1.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/13.1.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/13.1.0/firebase-database-compat.js"></script>
+  <script src="./firebase-config.js"></script>
   <script src="./archive.js"></script>
   <script src="./game-library.js"></script>
+  <script src="./firebase-auth.js"></script>
   <script src="./app.js"></script>
 </body>
 </html>

@@ -1,0 +1,17 @@
+{
+  "rules": {
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "username": {
+          ".write": "auth != null && auth.uid === $uid",
+          ".validate": "newData.isString() && newData.val().matches(/^[a-z0-9._-]{3,24}$/)"
+        },
+        "createdAt": {
+          ".write": "auth != null && auth.uid === $uid && !data.exists()",
+          ".validate": "newData.isNumber()"
+        }
+      }
+    }
+  }
+}

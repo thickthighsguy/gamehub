@@ -1,5 +1,19 @@
 (() => {
-  const archiveBaseUrl = "https://raw.githubusercontent.com/thickthighsguy/gameslist/main";
+  const defaultAssetBaseUrl = "https://raw.githubusercontent.com/thickthighsguy/gameslist/main/";
+  const assetBaseUrls = new Map([
+    ["12 Mini Battles", "https://cdn.jsdelivr.net/gh/yrgen73/12@5043038783e6ce235c297b1a5b2982a643bea713/"],
+    ["Crossy Road", "https://cdn.jsdelivr.net/gh/bubbls/youtube-playables@latest/crossy-road/"],
+    ["Five Nights at Epstein's", "https://cdn.jsdelivr.net/gh/web-ports/fnae@c9c8b513a27155bf37c4ab3dee74e99b12b895ba/"],
+    ["Five Nights at Freddy's", "https://cdn.jsdelivr.net/gh/genizy/fnaf@latest/1/"],
+    ["Five Nights at Freddy's 2", "https://cdn.jsdelivr.net/gh/genizy/fnaf@latest/2/"],
+    ["Five Nights at Freddy's 3", "https://cdn.jsdelivr.net/gh/genizy/fnaf@latest/3/"],
+    ["Five Nights at Freddy's 4", "https://cdn.jsdelivr.net/gh/genizy/fnaf@latest/4/"],
+    ["Minecraft 1.21.4", "https://cdn.jsdelivr.net/gh/genizy/mc@main/data/1.21.4/"],
+    ["Ragdoll Hit", "https://rawcdn.githack.com/genizy/google-class/main/ragdoll-hit/"],
+    ["Terraria", "https://cdn.jsdelivr.net/gh/web-ports/terraria@main/"],
+    ["The Deadseat", "https://cdn.jsdelivr.net/gh/genizy/web-port@main/deadseat/"],
+    ["War The Knights", "https://cdn.jsdelivr.net/gh/Sharon-Eva/home@0e6a3e7b393557c56f318855343173b63eac8c21/publ/js/"]
+  ]);
   const gamesByPath = new Map();
   let archiveKey;
   let activeGame;
@@ -43,7 +57,9 @@
 
   function withBaseUrl(source, game) {
     const directory = game.path.split("/").slice(0, -1).map(encodeURIComponent).join("/");
-    const baseTag = `<base href="${archiveBaseUrl}/${directory ? `${directory}/` : ""}">`;
+    const root = assetBaseUrls.get(game.name) || defaultAssetBaseUrl;
+    const baseUrl = directory ? new URL(`${directory}/`, root).href : root;
+    const baseTag = `<base href="${baseUrl}">`;
     const sourceWithBase = /<head\b[^>]*>/i.test(source)
       ? source.replace(/<head\b[^>]*>/i, (head) => `${head}\n${baseTag}`)
       : source.replace(/<html\b[^>]*>/i, (html) => `${html}<head>${baseTag}</head>`);
