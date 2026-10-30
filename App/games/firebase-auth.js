@@ -12,6 +12,7 @@
   const appShell = document.querySelector("#appShell");
   let auth;
   let database;
+  let authReady = false;
   let isSignUp = false;
 
   function usernameToAuthEmail(username) {
@@ -98,6 +99,10 @@
       formError.textContent = "Add the Firebase web app settings and enable Email/Password sign-in first.";
       return;
     }
+    if (!authReady) {
+      formError.textContent = "Firebase sign-in is still initializing. Try again in a moment.";
+      return;
+    }
 
     const username = identityInput.value.trim().toLowerCase();
     const authEmail = usernameToAuthEmail(username);
@@ -136,19 +141,17 @@
 
   try {
     if (!firebase.apps.length) firebase.initializeApp(config);
-    if (firebase.analytics && typeof firebase.analytics.isSupported === "function") {
-      firebase.analytics.isSupported().then((isSupported) => {
-        if (isSupported) firebase.analytics();
-      }).catch((error) => {
-        console.error("Firebase Analytics initialization failed.", error);
-      });
-    }
     auth = firebase.auth();
     database = firebase.database();
-    auth.onAuthStateChanged((user) => {
-      showSignedInUser(user).catch((error) => {
-        formError.textContent = authErrorMessage(error);
+    auth.setPersistence(firebase.auth.Auth.Persistence.NONE).then(() => {
+      authReady = true;
+      auth.onAuthStateChanged((user) => {
+        showSignedInUser(user).catch((error) => {
+          formError.textContent = authErrorMessage(error);
+        });
       });
+    }).catch((error) => {
+      formError.textContent = authErrorMessage(error);
     });
   } catch (error) {
     formError.textContent = authErrorMessage(error);

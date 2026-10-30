@@ -83,6 +83,12 @@
     const gameUnlockButton = document.querySelector("#gameUnlockButton");
     const gameUnlockMessage = document.querySelector("#gameUnlockMessage");
 
+    gameFrame.addEventListener("load", () => {
+      if (gameDialog.open && activeGame && gameFrame.srcdoc) {
+        gamePlayerStatus.hidden = true;
+      }
+    });
+
     function showUnlockError(message) {
       gamePlayerStatus.hidden = true;
       gameUnlockForm.hidden = false;
@@ -97,7 +103,8 @@
       gameFrame.srcdoc = withBaseUrl(source, game);
       gameFrame.hidden = false;
       gameUnlockForm.hidden = true;
-      gamePlayerStatus.hidden = true;
+      gamePlayerStatus.textContent = "Loading game...";
+      gamePlayerStatus.hidden = false;
       gameUnlockMessage.textContent = "";
       gamePassphrase.value = "";
     }
