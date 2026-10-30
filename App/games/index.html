@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#121717">
+  <title>Game Hub</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <section class="auth-screen" id="authScreen" aria-label="Sign in">
+    <div class="auth-layout">
+      <div class="auth-intro">
+        <div class="brand-mark"><span class="brand-glyph" aria-hidden="true">G</span> Game Hub</div>
+        <div class="intro-copy">
+          <p class="eyebrow">Your corner of the internet</p>
+          <h1>Find your<br>next favorite.</h1>
+          <p>A home base for the things you play, watch, and learn.</p>
+        </div>
+        <div class="auth-note">A little more room for what you love.</div>
+      </div>
+      <div class="auth-panel">
+        <h2 id="formTitle">Welcome back</h2>
+        <p class="form-caption" id="formCaption">Sign in to pick up where you left off.</p>
+        <form id="authForm">
+          <div class="field">
+            <label for="identity">Username or email</label>
+            <input id="identity" name="identity" type="text" autocomplete="username" placeholder="you@example.com" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="At least 6 characters" minlength="6" required>
+          </div>
+          <div class="field" id="additionalField" hidden>
+            <label for="additionalInfo">Additional information</label>
+            <textarea id="additionalInfo" name="additionalInfo" placeholder="A name, a short bio, or anything else"></textarea>
+          </div>
+          <button class="primary-button" id="submitButton" type="submit">Log in</button>
+          <p class="form-error" id="formError" role="status" aria-live="polite"></p>
+        </form>
+        <p class="mode-switch"><span id="switchPrompt">New to Game Hub?</span><button class="text-button" id="modeSwitch" type="button">Create an account</button></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="app-shell" id="appShell" hidden>
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="brand-mark"><span class="brand-glyph" aria-hidden="true">G</span> Game Hub</div>
+      <p class="nav-label">Workspace</p>
+      <nav class="nav-list" id="mainNav">
+        <button class="nav-button active" type="button" data-view="browse" aria-current="page"><span class="nav-icon" aria-hidden="true">⌕</span><span>Browse</span></button>
+        <button class="nav-button" type="button" data-view="subscriptions"><span class="nav-icon" aria-hidden="true">◫</span><span>Subscriptions</span></button>
+        <button class="nav-button" type="button" data-view="account"><span class="nav-icon" aria-hidden="true">◎</span><span>Account Info</span></button>
+        <button class="nav-button" type="button" data-view="discard"><span class="nav-icon" aria-hidden="true">↗</span><span>Discard</span></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="user-chip">
+          <div class="avatar" id="avatarInitial" aria-hidden="true">G</div>
+          <div><div class="user-name" id="sidebarUser">Guest</div><div class="user-status">Signed in</div></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <button class="theme-button" id="themeToggle" type="button" aria-pressed="false"><span class="theme-icon" id="themeIcon" aria-hidden="true">☼</span><span id="themeLabel">Light mode</span></button>
+      </header>
+
+      <div class="content">
+        <section class="view" id="view-browse" aria-labelledby="browseTitle">
+          <div class="page-heading"><div><p class="eyebrow">Discover</p><h1 id="browseTitle">Browse</h1><p>A place for your next play, watch, or deep dive.</p></div></div>
+          <div class="subnav" id="browseTabs" role="tablist" aria-label="Browse categories">
+            <button class="subnav-button active" id="browseTabGames" type="button" role="tab" aria-selected="true" aria-controls="browsePanelGames" tabindex="0" data-category="Games">Games</button>
+            <button class="subnav-button" id="browseTabMovies" type="button" role="tab" aria-selected="false" aria-controls="browsePanelMovies" tabindex="-1" data-category="Movies">Movies</button>
+            <button class="subnav-button" id="browseTabSchoolHelp" type="button" role="tab" aria-selected="false" aria-controls="browsePanelSchoolHelp" tabindex="-1" data-category="School Help">School Help</button>
+          </div>
+          <section class="browse-panel" id="browsePanelGames" role="tabpanel" aria-labelledby="browseTabGames" tabindex="0">
+            <p class="game-list-status" id="gameListStatus" role="status" aria-live="polite">Loading games from GitHub...</p>
+            <button class="text-button" id="retryGames" type="button" hidden>Try again</button>
+            <ul class="game-list" id="gameList" aria-label="Games" aria-busy="true"></ul>
+          </section>
+          <section class="browse-panel" id="browsePanelMovies" role="tabpanel" aria-labelledby="browseTabMovies" tabindex="0" hidden>
+            <div class="empty-state"><div class="empty-symbol" aria-hidden="true">✳</div><h2>Movies, your way.</h2><p>Your movies discoveries will have a home here.</p></div>
+          </section>
+          <section class="browse-panel" id="browsePanelSchoolHelp" role="tabpanel" aria-labelledby="browseTabSchoolHelp" tabindex="0" hidden>
+            <div class="empty-state"><div class="empty-symbol" aria-hidden="true">✳</div><h2>School Help, your way.</h2><p>Your school help discoveries will have a home here.</p></div>
+          </section>
+        </section>
+
+        <section class="view" id="view-subscriptions" aria-labelledby="subscriptionsTitle" hidden>
+          <div class="page-heading"><div><p class="eyebrow">Your library</p><h1 id="subscriptionsTitle">Subscriptions</h1><p>Keep track of what you follow.</p></div></div>
+          <div class="subnav" role="tablist" aria-label="Subscription types">
+            <button class="subnav-button active" type="button" role="tab" aria-selected="true" data-category="Bundles">Bundles</button>
+            <button class="subnav-button" type="button" role="tab" aria-selected="false" data-category="Individual">Individual</button>
+          </div>
+          <div class="empty-state"><div class="empty-symbol" aria-hidden="true">＋</div><h2 id="subscriptionEmptyTitle">Bundles</h2><p>Your subscriptions will appear here.</p></div>
+        </section>
+
+        <section class="view" id="view-account" aria-labelledby="accountTitle" hidden>
+          <div class="page-heading"><div><p class="eyebrow">Your space</p><h1 id="accountTitle">Account Info</h1><p>Your account details at a glance.</p></div></div>
+          <div class="account-panel">
+            <div class="account-row"><span>Username or email</span><span id="accountIdentity">-</span></div>
+            <div class="account-row"><span>Additional information</span><span id="accountAdditional">Not provided</span></div>
+            <div class="account-row"><span>Status</span><span>Signed in</span></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-discard" aria-labelledby="discardTitle" hidden>
+          <div class="page-heading"><div><p class="eyebrow">Off the shelf</p><h1 id="discardTitle">Discard</h1><p>A quiet place for things you set aside.</p></div></div>
+          <div class="empty-state"><div class="empty-symbol" aria-hidden="true">↗</div><h2>Nothing here yet.</h2><p>Items you discard will be collected here.</p></div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <dialog class="game-dialog" id="gameDialog" aria-labelledby="gamePlayerTitle">
+    <div class="game-player-header">
+      <h2 class="game-player-title" id="gamePlayerTitle">Game</h2>
+      <p class="game-player-status" id="gamePlayerStatus" role="status" aria-live="polite" hidden></p>
+      <button class="game-close" id="gameClose" type="button" aria-label="Close game" autofocus>×</button>
+    </div>
+    <div class="game-player-stage">
+      <form class="game-unlock-panel" id="gameUnlockForm" hidden>
+        <label for="gamePassphrase">Enter passphrase to unlock games</label>
+        <div class="game-unlock-controls">
+          <input id="gamePassphrase" type="password" autocomplete="current-password" required>
+          <button type="submit" id="gameUnlockButton">Unlock</button>
+        </div>
+        <p class="game-unlock-message" id="gameUnlockMessage" role="status" aria-live="polite"></p>
+      </form>
+      <iframe class="game-frame" id="gameFrame" title="Game" sandbox="allow-scripts allow-pointer-lock allow-forms" allow="fullscreen; autoplay; gamepad" allowfullscreen hidden></iframe>
+    </div>
+  </dialog>
+
+  <script src="./archive.js"></script>
+  <script src="./game-library.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>
