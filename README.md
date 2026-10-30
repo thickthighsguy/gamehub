@@ -1,5 +1,9 @@
 # gamehub
 
+## Standalone launcher
+
+Open the repository-root `index.html` to load the latest app from the `main` branch. On each page load it fetches the app HTML, stylesheet, and local scripts from GitHub with cache-busting requests, then assembles them in the current page. It does not require copying the app files into the root folder. Internet access is required.
+
 ## App layout
 
 - `App/games/index.html` contains the app markup.
